@@ -1,14 +1,9 @@
-FROM golang:latest as builder
-ENV CGO_ENABLED=0
-ENV GOOS=linux
-ENV GOARCH=amd64
+FROM golang:1.7
 
-ADD . /go/src/gobot
 RUN go get github.com/PuerkitoBio/goquery
 RUN go get github.com/nlopes/slack
-RUN go install gobot
+WORKDIR /go/src/
+ADD . /go/src/bot
+RUN go install bot
 
-FROM alpine:latest
-WORKDIR /root/
-COPY --from=builder /go/bin/gobot .
-CMD ["./gobot"]
+ENTRYPOINT /go/bin/bot

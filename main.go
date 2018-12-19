@@ -65,6 +65,11 @@ func (s *Slackparams) ValidateMessageEvent(ev *slack.MessageEvent) error {
 		s.rtm.SendMessage(s.rtm.NewOutgoingMessage(lead, ev.Channel))
 		return nil
 	}
+	if m[0] == "どこで動いてるの?" {
+		s.rtm.SendMessage(s.rtm.NewOutgoingMessage("GKEで動いてるが、なにか？", ev.Channel))
+		return nil
+	}
+
 	s.rtm.SendMessage(s.rtm.NewOutgoingMessage("メンション付いてるな。呼んだか？", ev.Channel))
 	return nil
 }
